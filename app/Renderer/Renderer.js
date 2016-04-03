@@ -12,7 +12,7 @@ let renderables = new Set();
  * @exports Renderer
  * @extends WebGLRenderer
  */
-export default class Renderer extends PIXI.WebGLRenderer {
+export default class Renderer extends PIXI.CanvasRenderer {
 
   constructor(...args) {
 
