@@ -16,7 +16,9 @@ import TWEEN from 'tween.js';
 const renderer = new Renderer(config.stageWidth, config.stageHeight);
 const app = new App(config.stageWidth, config.stageHeight);
 
-document.body.appendChild(renderer.view);
+// document.body.appendChild(renderer.view);
+let elem = document.getElementById('canvas');
+elem.appendChild(renderer.view);
 
 AnimationStore.addChangeListener(() => TWEEN.update());
 

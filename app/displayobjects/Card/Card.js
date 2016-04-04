@@ -12,27 +12,27 @@ import PICT0006 from './aprilfool_boy.png';
 import PICT0007 from './aprilfool_woman.png';
 import PICT0008 from './beethoven.png';
 import PICT0009 from './benkei.png';
-import PICT0010 from './buddha_satori_gedatsu_bodaiju.png';
-import PICT0011 from './cleopatra.png';
-import PICT0012 from './einstein.png';
-import PICT0013 from './gandhi.png';
-import PICT0014 from './helen_keller.png';
-import PICT0015 from './jean_of_arc.png';
-import PICT0016 from './juuryoku_newton.png';
-import PICT0017 from './marie_antoinette.png';
-import PICT0018 from './nigaoe_Dostoevsky.png';
-import PICT0019 from './nigaoe_buddha.png';
-import PICT0020 from './nigaoe_godaigo_tennou.png';
-import PICT0021 from './nigaoe_kikuchi_kan.png';
-import PICT0022 from './nigaoe_macarthur.png';
-import PICT0023 from './nigaoe_shikoutei.png';
-import PICT0024 from './nigaoe_youkihi.png';
-import PICT0025 from './nightingale.png';
-import PICT0026 from './onono_komachi.png';
-import PICT0027 from './syoutoku_taishi.png';
-import PICT0028 from './taketsuru_rita.png';
-import PICT0029 from './tokugawa_ieyasu.png';
-import PICT0030 from './ushiwakamaru_yoshitsune.png';
+import PICT0010 from './cleopatra.png';
+import PICT0011 from './gandhi.png';
+import PICT0012 from './helen_keller.png';
+import PICT0013 from './nigaoe_Dostoevsky.png';
+import PICT0014 from './nigaoe_godaigo_tennou.png';
+import PICT0015 from './nigaoe_kikuchi_kan.png';
+import PICT0016 from './nigaoe_macarthur.png';
+import PICT0017 from './nigaoe_shikoutei.png';
+import PICT0018 from './nigaoe_youkihi.png';
+import PICT0019 from './syoutoku_taishi.png';
+import PICT0020 from './taketsuru_rita.png';
+import PICT0021 from './einstein.png';
+import PICT0022 from './tokugawa_ieyasu.png';
+import PICT0023 from './onono_komachi.png';
+import PICT0024 from './juuryoku_newton.png';
+import PICT0025 from './ushiwakamaru_yoshitsune.png';
+import PICT0026 from './nightingale.png';
+import PICT0027 from './marie_antoinette.png';
+import PICT0028 from './nigaoe_buddha.png';
+import PICT0029 from './jean_of_arc.png';
+import PICT0030 from './buddha_satori_gedatsu_bodaiju.png';
 
 const PICT = [
   PICT0001, PICT0002, PICT0003, PICT0004, PICT0005,
@@ -52,8 +52,14 @@ const PICT = [
 export default class Card extends Sprite {
 
   constructor() {
-    const id = Math.floor(Math.random()*PICT.length);
-    console.log(id);
+    // const id = Math.floor(Math.random()*PICT.length);
+    const weights = [
+      100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+      100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+      100, 100, 100, 100,  50,  50,  50,  50,  50,   1
+    ];
+    const id = Card.getRandomIndex(weights);
+    // console.log(id);
     const texture = Texture.fromImage(PICT[id]);
 
     super(texture);
@@ -67,7 +73,24 @@ export default class Card extends Sprite {
     this.pivot.y = .5;
 
     this.interactive = true;
-    this.on('mouseover', this.startSpin.bind(this));
+    // this.on('mouseover', this.startSpin.bind(this));
+  }
+
+  static getRandomIndex(weightTable) {
+    let totalWeight = 0;
+    for(let i=0; i<weightTable.length; i++) {
+      totalWeight += weightTable[i];
+    }
+    let value = Math.floor(Math.random()*totalWeight);
+    let result = -1;
+    for(let i=0; i<weightTable.length; i++) {
+      if(weightTable[i] >= value) {
+        result = i;
+        break;
+      }
+      value -= weightTable[i];
+    }
+    return result;
   }
 
   startSpin() {

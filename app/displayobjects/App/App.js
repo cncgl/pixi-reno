@@ -1,11 +1,10 @@
-import ScaledContainer from '../ScaledContainer/ScaledContainer.js';
-// import BunnyGroup from '../BunnyGroup/BunnyGroup.js';
 import Bunny from '../Bunny/Bunny.js';
 import Card from '../Card/Card.js';
 import Button from '../Button/Button.js';
 import Background from '../Background/Background.js';
 import RendererStore from '../../stores/RendererStore.js';
 import AnimationStore from '../../stores/AnimationStore';
+import ActionStore from '../../stores/ActionStore';
 
 /**
  * Main App Display Object
@@ -15,23 +14,26 @@ import AnimationStore from '../../stores/AnimationStore';
  * @exports App
  * @extends ScaledContainer
  */
-export default class App extends ScaledContainer {
+export default class App extends PIXI.Container {
 
   constructor(...args) {
     super(...args);
 
+    const cx = RendererStore.get('stageCenter').x;
+    const cy = RendererStore.get('stageCenter').y;
+    const tw = RendererStore.get('target_width');
+    const th = RendererStore.get('target_height');
     this.bg = new Background();
+    this.bg.position.x = cx;
+    this.bg.position.y = cy;
 
     this.addChild(this.bg);
 
-    // this.addBunnies();
-    // this.addCard();
     this.addButton();
 
     this.interactive = true;
     AnimationStore.addChangeListener(() => this.animate());
-    // this.animate();
-    // requestAnimationFrame(animate);
+    ActionStore.addActionListener(() => this.addCard());
   }
 
   addBunnies() {
@@ -54,8 +56,6 @@ export default class App extends ScaledContainer {
 
     b.position.x = cx;
     b.position.y = cy + (RendererStore.get('stageHeight') * .25);
-
-    b.addActionListener(() => this.addCard());
 
     this.addChild(b);
   }
@@ -87,20 +87,11 @@ export default class App extends ScaledContainer {
 
     const Xratio = rw / tw;
     const Yratio = rh / th;
-    let scaleRatio = rw > rh ? Xratio : Yratio;
-    let scale = new PIXI.Point(scaleRatio, scaleRatio);
-    let offsetX = (rw / 2) - (tw*scaleRatio / 2);
-    let offsetY = (rh / 2) - (th*scaleRatio / 2);
 
     this.bg.position.x = cx;
     this.bg.position.y = cy;
 
     this.bg.rotation += 0.01;
-    //console.log(tw + "," + th);
-    // bgFront.rotation -= 0.01;
-
-    // renderer.render(stage);
-    // requestAnimationFrame(this);
   }
 
 }

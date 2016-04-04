@@ -6,6 +6,7 @@ import { Sprite, Texture } from 'pixi.js';
 import BUTTON from './button.png';
 import BUTTON_OVER from './buttonOver.png';
 import BUTTON_DOWN from './buttonDown.png';
+import ActionStore from '../../stores/ActionStore';
 
 /**
  * A bunny which spins on it's feet when moused over
@@ -51,10 +52,7 @@ export default class Button extends Sprite {
     this.isdown = true;
     this.texture = this.textureButtonDown;
     this.alpha = 1;
-    if(this.listener !== undefined) {
-      // console.log(this.listener)
-      this.listener();
-    }
+    ActionStore.emitChange();
   }
   onButtonOver() {
     this.isOver = true;
@@ -65,11 +63,5 @@ export default class Button extends Sprite {
     this.isOver = false;
     if (this.isdown) return;
     this.texture = this.textureButton;
-  }
-  addActionListener(l) {
-    this.listener = l
-  }
-  removeActionListener(l) {
-    this.listener = undefined;
   }
 }

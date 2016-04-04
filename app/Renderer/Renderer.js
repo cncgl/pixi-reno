@@ -20,7 +20,7 @@ export default class Renderer extends PIXI.CanvasRenderer {
 
     //this.resolution = window.devicePixelRatio;
 
-    window.addEventListener('resize', this.resizeHandler.bind(this));
+    //window.addEventListener('resize', this.resizeHandler.bind(this));
 
     RendererStore.set('resolution', this.resolution);
     RendererStore.set('stageWidth', args[0]);
@@ -36,8 +36,10 @@ export default class Renderer extends PIXI.CanvasRenderer {
    * Set the stores width and height on resize
    */
   setStore() {
-    RendererStore.set('width', this.getWindowSize()[0]);
-    RendererStore.set('height', this.getWindowSize()[1]);
+    // RendererStore.set('width', this.getWindowSize()[0]);
+    // RendererStore.set('height', this.getWindowSize()[1]);
+    RendererStore.set('width', RendererStore.get('stageWidth'));
+    RendererStore.set('height', RendererStore.get('stageHeight'));
   }
 
   /**
@@ -55,9 +57,10 @@ export default class Renderer extends PIXI.CanvasRenderer {
    * @return {null}
    */
   getWindowSize() {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-
+    // var width = window.innerWidth;
+    // var height = window.innerHeight;
+    var width = RendererStore.get('stageWidth');
+    var height = RendererStore.get('stageHeight');
     return [width, height];
   }
 
