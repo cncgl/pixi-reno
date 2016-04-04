@@ -1,6 +1,8 @@
 import ScaledContainer from '../ScaledContainer/ScaledContainer.js';
-import BunnyGroup from '../BunnyGroup/BunnyGroup.js';
+// import BunnyGroup from '../BunnyGroup/BunnyGroup.js';
 import Bunny from '../Bunny/Bunny.js';
+import Card from '../Card/Card.js';
+import Button from '../Button/Button.js';
 import Background from '../Background/Background.js';
 import RendererStore from '../../stores/RendererStore.js';
 import AnimationStore from '../../stores/AnimationStore';
@@ -22,7 +24,9 @@ export default class App extends ScaledContainer {
 
     this.addChild(this.bg);
 
-    this.addBunnies();
+    // this.addBunnies();
+    // this.addCard();
+    this.addButton();
 
     this.interactive = true;
     AnimationStore.addChangeListener(() => this.animate());
@@ -34,17 +38,43 @@ export default class App extends ScaledContainer {
     const cx = RendererStore.get('stageCenter').x;
     const cy = RendererStore.get('stageCenter').y;
 
-    let group1 = new BunnyGroup();
     let b1 = new Bunny();
 
     b1.position.x = cx;
     b1.position.y = cy;
 
-    group1.position.x = cx;
-    group1.position.y = cy + (RendererStore.get('stageHeight') * .25);
-
     this.addChild(b1);
-    this.addChild(group1);
+  }
+
+  addButton() {
+    const cx = RendererStore.get('stageCenter').x;
+    const cy = RendererStore.get('stageCenter').y;
+
+    let b = new Button();
+
+    b.position.x = cx;
+    b.position.y = cy + (RendererStore.get('stageHeight') * .25);
+
+    b.addActionListener(() => this.addCard());
+
+    this.addChild(b);
+  }
+
+  addCard() {
+    const cx = RendererStore.get('stageCenter').x;
+    const cy = RendererStore.get('stageCenter').y;
+
+    if(this.c1 !== null) {
+      this.removeChild(this.c1);
+      this.c1 = null;
+    }
+
+    this.c1 = new Card();
+
+    this.c1.position.x = cx;
+    this.c1.position.y = cy;
+
+    this.addChild(this.c1);
   }
 
   animate() {
@@ -52,6 +82,8 @@ export default class App extends ScaledContainer {
     const rh = RendererStore.get('height');
     const tw = RendererStore.get('target_width');
     const th = RendererStore.get('target_height');
+    const cx = RendererStore.get('stageCenter').x;
+    const cy = RendererStore.get('stageCenter').y;
 
     const Xratio = rw / tw;
     const Yratio = rh / th;
@@ -60,14 +92,8 @@ export default class App extends ScaledContainer {
     let offsetX = (rw / 2) - (tw*scaleRatio / 2);
     let offsetY = (rh / 2) - (th*scaleRatio / 2);
 
-    // const cx = RendererStore.get('stageCenter').x;
-    // const cy = RendererStore.get('stageCenter').y;
-
-    // this.bg.anchor.set(0.5, 0.5);
-    // this.bg.pivot.y = 50;
-
-    this.bg.position.x = rw/2;
-    this.bg.position.y = rh/2;
+    this.bg.position.x = cx;
+    this.bg.position.y = cy;
 
     this.bg.rotation += 0.01;
     //console.log(tw + "," + th);
