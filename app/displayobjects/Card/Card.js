@@ -1,8 +1,9 @@
+import PIXI from 'pixi.js';
 import { Tween } from 'tween.js';
 import { Sprite, Texture } from 'pixi.js';
-// import BUNNY from './bunny.png';
 
 // この書き方でいいのか？
+import FRAME0001 from './frame0001.png';
 import PICT0001 from './06_Johann_Strauss_I.png';
 import PICT0002 from './13_Mussorgsky.png';
 import PICT0003 from './20_Puccini.png';
@@ -49,9 +50,22 @@ const PICT = [
  * @exports Bunny
  * @extends Sprite
  */
-export default class Card extends Sprite {
+export default class Card extends /* Sprite */ PIXI.Container {
 
   constructor() {
+    super();
+
+    const textureFrame = Texture.fromImage(FRAME0001);
+    let spriteFrame = new Sprite(textureFrame);
+    spriteFrame.anchor.x = .5;
+    spriteFrame.anchor.y = 1;
+
+    spriteFrame.pivot.x = .5;
+    spriteFrame.pivot.y = .5;
+
+    spriteFrame.interactive = true;
+    this.addChild(spriteFrame);
+
     // const id = Math.floor(Math.random()*PICT.length);
     const weights = [
       100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
@@ -59,21 +73,33 @@ export default class Card extends Sprite {
       100, 100, 100, 100,  50,  50,  50,  50,  50,   1
     ];
     const id = Card.getRandomIndex(weights);
-    // console.log(id);
     const texture = Texture.fromImage(PICT[id]);
+    let sprite = new Sprite(texture);
+    // super(texture);
 
-    super(texture);
+    sprite.tween = new Tween(this);
+    sprite.position.y = -20;
+    sprite.anchor.x = .5;
+    sprite.anchor.y = 1;
+    sprite.pivot.x = .5;
+    sprite.pivot.y = .5;
+    sprite.interactive = true;
+    this.addChild(sprite);
 
-    this.tween = new Tween(this);
-
-    this.anchor.x = .5;
-    this.anchor.y = 1;
-
-    this.pivot.x = .5;
-    this.pivot.y = .5;
-
-    this.interactive = true;
-    // this.on('mouseover', this.startSpin.bind(this));
+    let rare = '';
+    if(id === 29) {
+      rare = 'SSR';
+    } else if(id >= 24) {
+      rare = 'SR';
+    } else {
+      rare = 'R';
+    }
+    let rarerityText = new PIXI.Text(rare,
+      { font: 'bold italic 60px Arial', fill: '#3e1707', align: 'right', stroke: '#a4410e', strokeThickness: 7 });
+    rarerityText.position.x = 20;
+    rarerityText.position.y = -80;
+    //rarerityText.anchor.x = .5;
+    this.addChild(rarerityText);
   }
 
   static getRandomIndex(weightTable) {

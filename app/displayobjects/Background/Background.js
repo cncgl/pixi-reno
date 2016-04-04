@@ -1,9 +1,5 @@
 import PIXI from 'pixi.js';
-import TEXTURE from './BGrotate2.jpg';
-
-// default target size
-//let tw = 1920;
-//let th = 1080;
+import TEXTURE from './BGrotate.jpg';
 
 /**
  * Loads the adds the diagnostic image

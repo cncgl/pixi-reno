@@ -1,4 +1,3 @@
-import Bunny from '../Bunny/Bunny.js';
 import Card from '../Card/Card.js';
 import Button from '../Button/Button.js';
 import Background from '../Background/Background.js';
