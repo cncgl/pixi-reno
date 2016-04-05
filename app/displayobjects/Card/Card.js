@@ -2,7 +2,6 @@ import PIXI from 'pixi.js';
 import { Tween } from 'tween.js';
 import { Sprite, Texture } from 'pixi.js';
 
-// この書き方でいいのか？
 import FRAME0001 from './frame0001.png';
 import PICT0001 from './06_Johann_Strauss_I.png';
 import PICT0002 from './13_Mussorgsky.png';
@@ -50,7 +49,7 @@ const PICT = [
  * @exports Bunny
  * @extends Sprite
  */
-export default class Card extends /* Sprite */ PIXI.Container {
+export default class Card extends PIXI.Container {
 
   constructor() {
     super();
@@ -70,12 +69,11 @@ export default class Card extends /* Sprite */ PIXI.Container {
     const weights = [
       100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
       100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-      100, 100, 100, 100,  50,  50,  50,  50,  50,   1
+      100, 100, 100, 100,  50,  50,  50,  50,  50,  10
     ];
     const id = Card.getRandomIndex(weights);
     const texture = Texture.fromImage(PICT[id]);
     let sprite = new Sprite(texture);
-    // super(texture);
 
     sprite.tween = new Tween(this);
     sprite.position.y = -20;
@@ -86,19 +84,28 @@ export default class Card extends /* Sprite */ PIXI.Container {
     sprite.interactive = true;
     this.addChild(sprite);
 
+    // レアリティ表示
     let rare = '';
+    let rarerityText = null;
     if(id === 29) {
       rare = 'SSR';
+      rarerityText = new PIXI.Text(rare,
+        { font: 'bold italic 60px Arial', fill: '#ffff99', align: 'right', stroke: '#ff1a6f', strokeThickness: 7 });
+      rarerityText.position.x = -45;
+      rarerityText.position.y = -80;
     } else if(id >= 24) {
       rare = 'SR';
+      rarerityText = new PIXI.Text(rare,
+        { font: 'bold italic 60px Arial', fill: '#cccccc', align: 'right', stroke: '#ffff11', strokeThickness: 7 });
+      rarerityText.position.x = -5;
+      rarerityText.position.y = -80;
     } else {
       rare = 'R';
+      rarerityText = new PIXI.Text(rare,
+        { font: 'bold italic 60px Arial', fill: '#3e1707', align: 'right', stroke: '#a4410e', strokeThickness: 7 });
+      rarerityText.position.x = 20;
+      rarerityText.position.y = -80;
     }
-    let rarerityText = new PIXI.Text(rare,
-      { font: 'bold italic 60px Arial', fill: '#3e1707', align: 'right', stroke: '#a4410e', strokeThickness: 7 });
-    rarerityText.position.x = 20;
-    rarerityText.position.y = -80;
-    //rarerityText.anchor.x = .5;
     this.addChild(rarerityText);
   }
 
@@ -118,11 +125,4 @@ export default class Card extends /* Sprite */ PIXI.Container {
     }
     return result;
   }
-
-  startSpin() {
-    this.tween.to({rotation: Math.PI*2}, 1000);
-    this.tween.start();
-    this.tween.onComplete(() => this.rotation = 0);
-  }
-
 }

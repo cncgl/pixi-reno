@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - 5.9
+env:
+  global:
+    - GIT_COMMITTER_NAME=cncgl
+    - GIT_COMMITTER_EMAIL=concigel@gmail.com
+    - GIT_AUTHOR_NAME=cncgl
+    - GIT_AUTHOR_EMAIL=concigel@gmail.com
+    - secure: Ih40xm+NoGMHfZVTuXceiTCQJFCQGnME0/LU41+pOaj5/HgBcJkLt2Q/figI/tkLmu3aTkX7OZz7nujgEVCQYMBdJTTbfOEyPScGH4mV+qg4bwBbfcsHs0HreQvpihXk19/b/GE2unIOTLIJd1mCe9jZC/MCLOPy9PSzN3FvhxTPEeIiJWsmuMJfPb7BYw7Cw6Db5xjc45Qv1kPX/CFx6gG6Uny6HKKVOz3d19443XCAaL7vDhzOCF0e8gwNTqTfFbXQscO3HAwF9l8ErPBk7kD48MV+am7x9JX1PE+9T/D/jto+KMYFA5Fh/uApsJWLxXyFBY2ElEIHA7hpAZpnfRlzRwsgg6tw5oJghWwPyAeG7CgXsdqc/najoQrE3kW/M+TUQTenv68LxCd+nwAQhmBkROxt25WaMbhmbJfez9lAM1I31r8sL7NAB4NzPEbuRYZcOQ3pknif6nIepknE1UdtY/TygLyGUdmbXATJ6HadSiJg3GBYOpn24xBA5Ph5bK4AW3hrB8p9enwIIsoqTCDn+5Nbx02i1QzYovnEg8o55yg1USEsMnO0rpHszRLKEdhHYunk8OOsAQP0pgpYHa3I22VcRfjsIHPpnYPC5w6x9wq+Ezx592c5rldHKEmXVU03SbE/Tp9r408YEwRqymq7KjUCdiPAp9J6rb84200=
+before_script:
+  - npm i
+script:
+  - npm build
+after_success:
+  - cd build
+  - git init
+  - git add -A
+  - git commit -m 'Deploy to GitHub Pages'
+  - '[ $GH_TOKEN ] && git push --force --quiet https://$GH_TOKEN@github.com/cncgl/angular-lifting-class-judge.git master:gh-pages 2> /dev/null'

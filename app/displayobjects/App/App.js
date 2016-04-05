@@ -20,8 +20,6 @@ export default class App extends PIXI.Container {
 
     const cx = RendererStore.get('stageCenter').x;
     const cy = RendererStore.get('stageCenter').y;
-    const tw = RendererStore.get('target_width');
-    const th = RendererStore.get('target_height');
     this.bg = new Background();
     this.bg.position.x = cx;
     this.bg.position.y = cy;
@@ -83,9 +81,6 @@ export default class App extends PIXI.Container {
     const th = RendererStore.get('target_height');
     const cx = RendererStore.get('stageCenter').x;
     const cy = RendererStore.get('stageCenter').y;
-
-    const Xratio = rw / tw;
-    const Yratio = rh / th;
 
     this.bg.position.x = cx;
     this.bg.position.y = cy;
